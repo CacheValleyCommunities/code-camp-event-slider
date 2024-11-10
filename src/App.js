@@ -7,11 +7,11 @@ import Clock from "./components/Clock/Clock";
 function App() {
   const [shouldRenderFrame, setShouldRenderFrame] = useState(true);
 
-  setInterval(() => {
-    setShouldRenderFrame(!shouldRenderFrame);
+  // setInterval(() => {
+  //   setShouldRenderFrame(!shouldRenderFrame);
 
-    document.body.style.backgroundColor = shouldRenderFrame ? 'white' : 'black';
-  }, 1000 * 30); // 30 minutes
+  //   document.body.style.backgroundColor = shouldRenderFrame ? 'white' : 'black';
+  // }, 1000 * 30); // 30 minutes
 
   return (
 <>
