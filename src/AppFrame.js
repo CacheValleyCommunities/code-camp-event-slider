@@ -5,7 +5,7 @@ import Canvas from "./components/Canvas/Canvas";
 
 import client from "socket.io-client";
 
-const websocket = process.env.PORT || "ws://localhost:3001";
+const websocket = process.env.SOCKET_API || "ws://localhost:3001";
 
 const socket = client(websocket);
 

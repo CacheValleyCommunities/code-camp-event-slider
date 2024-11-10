@@ -4,6 +4,8 @@ import "./BottomBar.css";
 import websocket from "../../helpers/websocket";
 import { useEffect, useState } from "react";
 
+import { replaceBlockedWords } from "../../helpers/words";
+
 function BottomBar() {
 
   const PLAY_STATUS = {
@@ -21,11 +23,11 @@ function BottomBar() {
 
   useEffect(() => {
     console.log("Connecting to the socket API.");
-    websocket.connect("ws://localhost:8080").then((socket) => {
+    websocket.connect(process.env.SOCKET_API || "ws://localhost:3001").then((socket) => {
       console.log("Connected to the socket API.", socket);
       socket.on("video:start", (data) => {
         console.log("Video Starting with data: ", data);
-        setVideoSrc(data.url);
+        setVideoSrc(replaceBlockedWords(data.url));
         setPlayStatus(PLAY_STATUS.PLAYING);
       });
 
@@ -36,6 +38,9 @@ function BottomBar() {
 
       socket.on("alert:set", (data) => {
         console.log("Setting Alert with data: ", data);
+
+        data.message = replaceBlockedWords(data.message);
+
         setAlertBar(data);
       })
 
@@ -58,7 +63,7 @@ function BottomBar() {
       // audio is just the video but hidden
       socket.on("audio:start", (data) => {
         console.log("Audio Starting with data: ", data);
-        setAudioSrc(data.url);
+        setAudioSrc(replaceBlockedWords(data.url));
         setAudioPlayStatus(PLAY_STATUS.PLAYING);
       })
 
