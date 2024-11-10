@@ -10,6 +10,10 @@ ENV SOCKET_API $SOCKET_API
 ARG API_KEY
 ENV API_KEY $API_KEY
 
+RUN export PORT=$PORT
+RUN export SOCKET_API=$SOCKET_API
+RUN export API_KEY=$API_KEY
+
 # Create app directory
 WORKDIR /usr/src/app
 
