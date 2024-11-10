@@ -1,0 +1,14 @@
+.countdown {
+  font-size: 30px;
+}
+
+.countdown-container {
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
+  color: #fff;
+}
+
+.countdown-label {
+  font-size: 18px;
+}
