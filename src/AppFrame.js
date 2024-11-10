@@ -4,20 +4,24 @@ import BottomBar from "./components/BottomBar/BottomBar";
 import Canvas from "./components/Canvas/Canvas";
 
 import client from "socket.io-client";
-
-const websocket = process.env.SOCKET_API || "ws://localhost:3001";
-
-const socket = client(websocket);
-
-socket.on("connect", () => {
-  console.log("Connected to the socket API.");
-
-  socket.on("video:start", () => {
-    alert("video Starting");
-  });
-});
+import { useEffect } from "react";
 
 function AppFrame() {
+
+  useEffect(() => {
+    const websocket = window.checkIfAPITargetIsPresent();
+
+    const socket = client(websocket);
+
+    socket.on("connect", () => {
+      console.log("Connected to the socket API.");
+
+      socket.on("video:start", () => {
+        alert("video Starting");
+      });
+    });
+  });
+  
   return (
     <>
       <TopBar />

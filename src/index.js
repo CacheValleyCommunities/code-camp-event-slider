@@ -5,6 +5,22 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+window.checkIfAPITargetIsPresent = () => {
+  let res = window.localStorage.getItem('api-target');
+
+  if (res === null) {
+    if (process.env.SOCKET_API) {
+      window.localStorage.setItem('api-target', process.env.SOCKET_API);
+    } else {
+      let promptres = prompt('Please enter the API target:', 'ws://localhost:3001');
+      window.localStorage.setItem('api-target', promptres);
+    }
+  }
+
+  return window.localStorage.getItem('api-target');
+}
+
 root.render(
   <React.StrictMode>
     <App />

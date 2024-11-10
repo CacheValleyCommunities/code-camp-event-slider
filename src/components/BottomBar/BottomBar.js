@@ -23,7 +23,7 @@ function BottomBar() {
 
   useEffect(() => {
     console.log("Connecting to the socket API.");
-    websocket.connect(process.env.SOCKET_API || "ws://localhost:3001").then((socket) => {
+    websocket.connect(window.checkIfAPITargetIsPresent()).then((socket) => {
       console.log("Connected to the socket API.", socket);
       socket.on("video:start", (data) => {
         console.log("Video Starting with data: ", data);
