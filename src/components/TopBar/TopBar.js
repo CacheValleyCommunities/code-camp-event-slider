@@ -28,7 +28,7 @@ function TopBar() {
       <Clock />
       <div className={qrCode}>
         <img
-          src="https://event-slider.vercel.app/frame.png"
+          src="./qrcode.png"
           alt="Event Signup QR Code"
         />
 

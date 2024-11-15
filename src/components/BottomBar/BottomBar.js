@@ -99,11 +99,14 @@ return (
             alt="CodeCamp Logo"
           />
         </div>
-        <div>
+        <div className="larger-text">
         {alertBar.message !== "" && (<Alert
           type={alertBar.type}
           message={alertBar.message}
         />)}
+
+
+        too small to read
         </div>
       </div>
     </>
