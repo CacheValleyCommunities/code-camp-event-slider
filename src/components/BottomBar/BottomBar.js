@@ -20,6 +20,7 @@ function BottomBar() {
   const [audioPlayStatus, setAudioPlayStatus] = useState(PLAY_STATUS.STOPPED);
 
   const [alertBar, setAlertBar] = useState({ type: "", message: "" });
+  const [textSize, setTextSize] = useState("");
 
   useEffect(() => {
     console.log("Connecting to the socket API.");
@@ -67,6 +68,11 @@ function BottomBar() {
         setAudioPlayStatus(PLAY_STATUS.PLAYING);
       })
 
+      socket.on("text-size", (data) => {
+        console.log("Text Size Changing with data: ", data);
+        setTextSize(data)
+      })
+
       socket.on("audio:stop", () => {
         console.log("Audio Stopping");
         setAudioPlayStatus(PLAY_STATUS.STOPPED);
@@ -99,14 +105,11 @@ return (
             alt="CodeCamp Logo"
           />
         </div>
-        <div className="larger-text">
+        <div className={textSize}>
         {alertBar.message !== "" && (<Alert
           type={alertBar.type}
           message={alertBar.message}
         />)}
-
-
-        too small to read
         </div>
       </div>
     </>

@@ -88,6 +88,6 @@
   box-shadow: var(--box-shadow-theme);
 }
 
-.larger-text {
-  font-size: 1.5rem;
+.large-text {
+  font-size: 2.5rem;
 }
