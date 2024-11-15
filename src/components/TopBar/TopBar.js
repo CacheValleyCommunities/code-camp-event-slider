@@ -24,7 +24,7 @@ function TopBar() {
 
   return (
     <div className="top-bar">
-      <CountDown targetDate="2024-11-15 08:00:00" />
+      <CountDown targetDate="2024-11-16 08:00:00" />
       <Clock />
       <div className={qrCode}>
         <img
