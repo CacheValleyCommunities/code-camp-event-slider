@@ -7,7 +7,9 @@ import DirtBlock1Sprite from "./Sprites/Set/Dirtblock1";
 import SkyBlock1 from "./Sprites/Set/Skyblock1";
 import TreeSprite from "./Sprites/TreeSprite";
 import CloudSprite from "./Sprites/CloudSprite";
-
+import BirchTreeSprite from "./Sprites/TreeBirchSprite";
+import TreeFirStumpSprite from "./Sprites/TreeFirStumpSprite";
+import BirchTreeSpriteTipped from "./Sprites/TreeBirchSpriteTipped";
 // console.log = () => null;
 
 function Canvas() {
@@ -15,13 +17,15 @@ function Canvas() {
   const hasSetupBeenCalled = useRef(false);
   const layers = useRef({
     background: [],
+    stars: [],
     mountains: [],
     clouds: [],
     trees: [],
     'trees-2': [],
     'trees-3': [],
     'trees-4': [],
-    stars: [],
+    'trees-5': [],
+    
     sprites: [],
     foreground: [],
   });
@@ -267,7 +271,7 @@ function Canvas() {
     };
 
     async function createForest(canvas) {
-      let height = canvas.height - 18 - 328;
+      let height = canvas.height - 18 - 500;
 
       for (let i = 0; i < 20; i++) {
         createElement(
@@ -277,15 +281,15 @@ function Canvas() {
         )
       }
 
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < 10; i++) {
         createElement(
           "sprite",
-          TreeSprite(getRandomNumber, canvas, { x: getRandomNumber(0, canvas.width), y: height + 10 }),
+          BirchTreeSprite(getRandomNumber, canvas, { x: getRandomNumber(0, canvas.width), y: height + 150 }),
           "trees-2"
         )
       }
 
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < 6; i++) {
         createElement(
           "sprite",
           TreeSprite(getRandomNumber, canvas, { x: getRandomNumber(0, canvas.width), y: height + 15 }),
@@ -293,11 +297,19 @@ function Canvas() {
         )
       }
 
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < 5; i++) {
         createElement(
           "sprite",
-          TreeSprite(getRandomNumber, canvas, { x: getRandomNumber(0, canvas.width), y: height + 20 }),
+          TreeFirStumpSprite(getRandomNumber, canvas, { x: getRandomNumber(0, canvas.width), y: height + 300 }),
           "trees-4"
+        )
+      }
+
+      for (let i = 0; i < 5; i++) {
+        createElement(
+          "sprite",
+          BirchTreeSpriteTipped(getRandomNumber, canvas, { x: getRandomNumber(0, canvas.width), y: height + 225 }),
+          "trees-5"
         )
       }
     }
@@ -307,7 +319,7 @@ function Canvas() {
 
       let coords = {
         x: 0,
-        y: height, // sprite height - footer height
+        y: height  - 300, // sprite height - footer height
       };
 
       await createElement(
