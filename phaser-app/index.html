@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Procedural Event Slider</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+            box-sizing: border-box;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Game container with proper padding and centering */
+        #game-container {
+            position: relative;
+            width: 85vw;
+            height: 80vh;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px;
+            overflow: visible;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
+        }
+
+        #game-container canvas {
+            /* Only barrel distortion filter, no SVG glow */
+            filter: url(#crt-barrel) contrast(1.02) brightness(1.0) saturate(0.98);
+            width: auto !important;
+            height: auto !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
+            background: #000;
+            position: relative;
+            display: block;
+            margin: 0 auto;
+            /* Enhanced physical CRT glow effect with more dramatic pulsating layers */
+            box-shadow:
+                /* Inner bright glow - more intense blue */
+                0 0 10px rgba(100, 200, 255, 0.95),
+                0 0 20px rgba(60, 190, 255, 0.85),
+                /* Middle layers with higher intensity */
+                0 0 35px rgba(50, 180, 255, 0.7),
+                0 0 50px rgba(40, 170, 255, 0.6),
+                /* Outer diffuse glow - wider spread */
+                0 0 70px rgba(30, 160, 255, 0.5),
+                0 0 100px rgba(20, 150, 255, 0.35),
+                /* Far outer subtle ambient glow */
+                0 0 130px rgba(10, 120, 255, 0.25);
+            border-radius: 2%;
+            /* Better performance with hardware acceleration */
+            transform: translateZ(0);
+        }
+
+        .info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+
+        .controls-info {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            color: white;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 10px;
+            max-width: 300px;
+        }
+
+        .controls-info h4 {
+            margin: 0 0 5px 0;
+            color: #00ff00;
+        }
+
+        .controls-info p {
+            margin: 2px 0;
+        }
+
+        /* Audio player positioning and styling */
+        #audio-player-container {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(100, 200, 255, 0.5);
+            border-radius: 8px;
+            padding: 10px 15px;
+            color: white;
+            z-index: 9990;
+            box-shadow:
+                /* Inner bright glow */
+                0 0 10px rgba(100, 200, 255, 0.95),
+                0 0 20px rgba(60, 190, 255, 0.85),
+                /* Middle layers */
+                0 0 35px rgba(50, 180, 255, 0.7),
+                /* Outer diffuse glow */
+                0 0 50px rgba(40, 170, 255, 0.5);
+            backdrop-filter: blur(5px);
+            font-family: 'Courier New', monospace;
+            max-width: 600px;
+        }
+
+        /* Video popup styling - enhanced with CRT effects */
+        .video-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9995;
+            border-radius: 4px;
+            overflow: hidden;
+            /* Enhanced CRT-style glow matching the enhanced canvas effect */
+            box-shadow:
+                /* Inner bright glow */
+                0 0 10px rgba(100, 200, 255, 0.95),
+                0 0 20px rgba(60, 190, 255, 0.85),
+                /* Middle layers */
+                0 0 35px rgba(50, 180, 255, 0.7),
+                0 0 50px rgba(40, 170, 255, 0.6),
+                /* Outer diffuse glow */
+                0 0 70px rgba(30, 160, 255, 0.5);
+            max-width: 90vw;
+            max-height: 85vh;
+            /* Apply a subtle CRT-like border */
+            border: 1px solid rgba(50, 180, 255, 0.5);
+        }
+
+        .video-popup iframe,
+        .video-popup video {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Removed CRT Overlay, Monitor Frame, and related styles */
+    </style>
+</head>
+
+<body>
+    <!-- SVG filter for CRT barrel distortion -->
+    <svg width="0" height="0" style="position:absolute">
+        <filter id="crt-barrel">
+            <feImage result="bulge"
+                xlink:href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%'><radialGradient id='g' cx='50%' cy='50%' r='0.85'><stop offset='0%' stop-color='white'/><stop offset='85%' stop-color='white'/><stop offset='100%' stop-color='black'/></radialGradient><rect width='100%' height='100%' fill='url(%23g)'/></svg>"
+                x="0" y="0" width="100%" height="100%" />
+            <feDisplacementMap in2="bulge" in="SourceGraphic" scale="14" xChannelSelector="R" yChannelSelector="G" />
+            <feGaussianBlur stdDeviation="0.4" />
+            <feComponentTransfer>
+                <feFuncR type="linear" slope="1.0" intercept="0" />
+                <feFuncG type="linear" slope="1.0" intercept="0" />
+                <feFuncB type="linear" slope="1.0" intercept="0" />
+            </feComponentTransfer>
+            <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1.02 0" />
+        </filter>
+        <!-- CRT glow is now handled by CSS box-shadow instead of SVG filters -->
+    </svg>
+    <div id="game-container"></div>
+
+    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="/src/main.js"></script>
+    <script>
+        // Simplified - only keep barrel distortion on canvas
+        // No CRT glow sync or animations needed
+    </script>
+</body>
+
+</html>
