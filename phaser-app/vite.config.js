@@ -7,10 +7,28 @@ export default defineConfig(({ command, mode }) => {
 
     return {
         server: {
-            port: 3001,
+            port: 3000,
             host: '0.0.0.0', // Allow connections from any host
             open: true,
-            allowedHosts: true // Allow all hosts (including subdomains)
+            allowedHosts: true, // Allow all hosts (including subdomains)
+            // Proxy WebSocket connections to backend
+            proxy: {
+                '/websocket': {
+                    target: 'ws://websocket-server:8081',
+                    ws: true, // Enable WebSocket proxying
+                    rewrite: (path) => path.replace(/^\/websocket/, ''),
+                    changeOrigin: true,
+                    configure: (proxy, options) => {
+                        // Log proxy events for debugging
+                        proxy.on('proxyReqWs', (proxyReq, req, socket, options, head) => {
+                            console.log('🔄 Proxying WebSocket request to:', options.target);
+                        });
+                        proxy.on('error', (err, req, res) => {
+                            console.log('❌ Proxy error:', err);
+                        });
+                    }
+                }
+            }
         },
         build: {
             outDir: 'dist',

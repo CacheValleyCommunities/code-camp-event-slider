@@ -8,7 +8,6 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=development
-      - VITE_WSS_SERVER=${VITE_WSS_SERVER}
     depends_on:
       - websocket-server
 
@@ -24,9 +23,6 @@ services:
       - WS_SERVER_HOST=0.0.0.0
       - WS_SERVER_PORT=8081
     restart: unless-stopped
-    stdin_open: true
-    tty: true
-    command: ["tail", "-f", "/dev/null"] # Keep the container running
 
   # Production UI Service (Nginx serving built files)
   ui-prod:
