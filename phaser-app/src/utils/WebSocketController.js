@@ -12,7 +12,7 @@ export default class WebSocketController {
         this.heartbeatInterval = null;
 
         // Get WebSocket server URL from environment variable or use default
-        this.serverUrl = import.meta.env.VITE_WS_SERVER_URL || 'ws://localhost:8081';
+        this.serverUrl = import.meta.env.VITE_WS_SERVER_URL || 'ws://websocket-server:8081';
         console.log(`📡 WebSocket server URL: ${this.serverUrl}`);
 
         this.connect();
