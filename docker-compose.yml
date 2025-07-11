@@ -12,8 +12,6 @@ services:
       - VITE_WS_PORT=8081
     depends_on:
       - websocket-server
-    networks:
-      - event-slider-network
 
   # WebSocket Server Service
   websocket-server:
@@ -26,8 +24,6 @@ services:
       - NODE_ENV=production
       - WS_SERVER_HOST=0.0.0.0
       - WS_SERVER_PORT=8081
-    networks:
-      - event-slider-network
     restart: unless-stopped
     stdin_open: true
     tty: true
@@ -43,14 +39,5 @@ services:
       - "443:443"
     depends_on:
       - websocket-server
-    networks:
-      - event-slider-network
     profiles:
       - production
-
-networks:
-  event-slider-network:
-    driver: bridge
-
-volumes:
-  node_modules:
