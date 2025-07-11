@@ -56,7 +56,7 @@ dev() {
     
     log_success "Development environment started!"
     log_info "UI available at: http://localhost:3000"
-    log_info "WebSocket server at: ws://localhost:8081"
+    log_info "WebSocket server at: wss://localhost:8081"
     
     # Follow logs
     log_info "Following logs (Ctrl+C to stop)..."
@@ -80,7 +80,7 @@ prod() {
     
     log_success "Production environment started!"
     log_info "UI available at: http://localhost:80"
-    log_info "WebSocket server at: ws://localhost:8081"
+    log_info "WebSocket server at: wss://localhost:8081"
 }
 
 # Stop all services
