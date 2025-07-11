@@ -4,9 +4,13 @@
 
 export const EventConfig = {
     // Event Details
-    name: 'Code Camp 2025',
-    date: '2025-07-02T09:00:00', // ISO string format
+    name: 'CodeCamp: Bridgerland',
+    date: '2025-07-11T08:00:00', // ISO string format
     location: 'Utah Tech University',
+    day1End: '2025-07-11T20:00:00', // End of first day
+    day2Start: '2025-07-12T08:00:00', // Start of second day
+    day2End: '2025-07-12T20:00:00', // End of second day
+    timezone: 'America/Denver',
 
     // Logo and Branding
     logoUrl: '/codecamp.png',
@@ -29,14 +33,14 @@ export const EventConfig = {
         awards: 'Award ceremony starting now in the main hall!'
     },
 
-    // Schedule (optional - can be used for automated alerts)
-    schedule: [
-        { time: '08:00', alert: 'registration' },
-        { time: '09:00', alert: 'breakfast' },
-        { time: '12:00', alert: 'lunch' },
-        { time: '18:00', alert: 'dinner' },
-        { time: '20:00', alert: 'judging' }
-    ]
+    // // Schedule (optional - can be used for automated alerts)
+    // schedule: [
+    //     { time: '08:00', alert: 'registration' },
+    //     { time: '09:00', alert: 'breakfast' },
+    //     { time: '12:00', alert: 'lunch' },
+    //     { time: '18:00', alert: 'dinner' },
+    //     { time: '20:00', alert: 'judging' }
+    // ]
 };
 
 export default EventConfig;

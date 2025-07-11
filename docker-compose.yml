@@ -1,0 +1,66 @@
+services:
+  # Frontend UI Service (Vite dev server)
+  ui:
+    build:
+      context: ./phaser-app
+      dockerfile: Dockerfile.ui
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./phaser-app/src:/app/src
+      - ./phaser-app/public:/app/public
+      - ./phaser-app/index.html:/app/index.html
+      - ./phaser-app/vite.config.js:/app/vite.config.js
+    environment:
+      - NODE_ENV=development
+      - VITE_WS_HOST=localhost
+      - VITE_WS_PORT=8081
+    depends_on:
+      - websocket-server
+    networks:
+      - event-slider-network
+
+  # WebSocket Server Service
+  websocket-server:
+    build:
+      context: ./phaser-app
+      dockerfile: Dockerfile.websocket
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./phaser-app/websocket-server.js:/app/websocket-server.js
+      - ./phaser-app/.env:/app/.env
+    environment:
+      - NODE_ENV=production
+      - WS_SERVER_HOST=0.0.0.0
+      - WS_SERVER_PORT=8081
+    networks:
+      - event-slider-network
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    command: ["tail", "-f", "/dev/null"]
+
+  # Production UI Service (Nginx serving built files)
+  ui-prod:
+    build:
+      context: ./phaser-app
+      dockerfile: Dockerfile.ui-prod
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - websocket-server
+    networks:
+      - event-slider-network
+    profiles:
+      - production
+
+networks:
+  event-slider-network:
+    driver: bridge
+
+volumes:
+  node_modules:

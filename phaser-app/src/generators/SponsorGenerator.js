@@ -22,8 +22,8 @@ export default class SponsorGenerator {
 
         // Display settings
         this.displayPosition = {
-            x: this.scene.cameras.main.width - 150, // Right side of screen
-            y: 150 // Top portion of screen
+            x: this.scene.cameras.main.width - 260, // Right side of screen
+            y: 140 // Top portion of screen
         };
 
         this.fadeInDuration = 500;

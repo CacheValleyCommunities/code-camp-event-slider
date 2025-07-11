@@ -25,12 +25,12 @@ export default class MainScene extends Phaser.Scene {
         // Load event logo for UI
         this.load.image('eventLogo', '/codecamp.png');
 
-        // Load the runtime barrel pipeline plugin
-        this.load.plugin(
-            'rexbarrelpipelineplugin',
-            'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexbarrelpipelineplugin.min.js',
-            true
-        );
+        // // Load the runtime barrel pipeline plugin
+        // this.load.plugin(
+        //     'rexbarrelpipelineplugin',
+        //     'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexbarrelpipelineplugin.min.js',
+        //     true
+        // );
 
         console.log('🎮 MainScene preloading assets...');
     }

@@ -4,127 +4,40 @@
 
 const images = [
     {
-        url: "/logos/2048x800/bronze-eaglegate.png",
-        width: 200,
-        height: 170,
+        url: "/bridgerland-codecamp-2025-sponsors/timely-devs.png",
+        width: 400,
+        height: 200,
         level: 3
     },
     {
-        url: "/logos/2048x800/bronze-infowest.png",
-        width: 200,
-        height: 170,
-        level: 3,
-        show: true
-    },
-    {
-        url: "/logos/2048x800/bronze-sgchamber.png",
-        width: 200,
-        height: 170,
+        url: "/bridgerland-codecamp-2025-sponsors/bridgerland.png",
+        width: 400,
+        height: 200,
         level: 3
     },
     {
-        url: "/logos/2048x800/gold-beatbread.png",
-        width: 200,
-        height: 170,
+        url: "/bridgerland-codecamp-2025-sponsors/import-auto.png",
+        width: 400,
+        height: 200,
+        level: 3
+    },
+    {
+        url: "/bridgerland-codecamp-2025-sponsors/epiroc.png",
+        width: 400,
+        height: 200,
         level: 2
     },
     {
-        url: "/logos/2048x800/gold-integalactic.png",
-        width: 200,
-        height: 170,
-        level: 2
-    },
-    {
-        url: "/logos/2048x800/gold-mango.png",
-        width: 200,
-        height: 170,
-        level: 2
-    },
-    {
-        url: "/logos/2048x800/gold-stemoutreachcenter.png",
-        width: 200,
-        height: 170,
-        level: 2
-    },
-    {
-        url: "/logos/2048x800/gold-usuext-new.png",
-        width: 200,
-        height: 170,
-        level: 2
-    },
-    {
-        url: "/logos/2048x800/gold-usuext-roi.png",
-        width: 200,
-        height: 170,
-        level: 2
-    },
-    {
-        url: "/logos/2048x800/gold-utahtech.png",
-        width: 200,
-        height: 170,
-        level: 2
-    },
-    {
-        url: "/logos/2048x800/gold-washco.png",
-        width: 200,
-        height: 170,
-        level: 2
-    },
-    {
-        url: "/logos/2048x800/platinum-codekeyz.png",
-        width: 200,
-        height: 170,
+        url: "/bridgerland-codecamp-2025-sponsors/iota.png",
+        width: 400,
+        height: 200,
         level: 1
-    },
-    {
-        url: "/logos/2048x800/platinum-tcn.png",
-        width: 200,
-        height: 170,
-        level: 1
-    },
-    {
-        url: "/logos/2048x800/platinum-techridge.png",
-        width: 200,
-        height: 170,
-        level: 1
-    },
-    {
-        url: "/logos/2048x800/platinum-vasion.png",
-        width: 200,
-        height: 170,
-        level: 1
-    },
-    {
-        url: "/logos/2048x800/platinum-zonos.png",
-        width: 200,
-        height: 170,
-        level: 1
-    },
-    {
-        url: "/logos/2048x800/silver-audience.png",
-        width: 200,
-        height: 170,
-        level: 3
-    },
-    {
-        url: "/logos/2048x800/silver-dixietech.png",
-        width: 200,
-        height: 170,
-        level: 3
-    },
-    {
-        url: "/logos/2048x800/silver-hq.png",
-        width: 200,
-        height: 170,
-        level: 3
-    },
-    {
-        url: "/logos/2048x800/silver-scitools.png",
-        width: 200,
-        height: 170,
-        level: 3
     },
 ];
+
+const FIVE_MINUTES = 5 * 60 * 1000; // 5 minutes in milliseconds
+const THREE_MINUTES = 3 * 60 * 1000; // 3 minutes in milliseconds
+const ONE_MINUTE = 60 * 1000; // 1 minute in milliseconds
 
 /**
  * Sponsor configuration class
@@ -133,21 +46,21 @@ export default class SponsorConfig {
     constructor() {
         this.sponsors = images;
         this.tierConfig = {
-            1: { // Platinum - highest tier
+            3: { // Platinum - highest tier
                 scale: 1.2,
-                displayDuration: 4000, // 4 seconds
+                displayDuration: FIVE_MINUTES, // 4 seconds
                 alpha: 1.0,
                 priority: 3
             },
             2: { // Gold - middle tier
-                scale: 1.0,
-                displayDuration: 3000, // 3 seconds
+                scale: 1.2,
+                displayDuration: THREE_MINUTES, // 3 seconds
                 alpha: 0.9,
                 priority: 2
             },
-            3: { // Bronze/Silver - lowest tier
-                scale: 0.8,
-                displayDuration: 2000, // 2 seconds
+            1: { // Bronze/Silver - lowest tier
+                scale: 1.2,
+                displayDuration: ONE_MINUTE, // 2 seconds
                 alpha: 0.8,
                 priority: 1
             }

@@ -1,0 +1,27 @@
+# WebSocket Server Dockerfile
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install only production dependencies for WebSocket server
+RUN npm install --omit=dev
+
+# Copy WebSocket server file
+COPY websocket-server.js ./
+
+# Copy .env file if it exists (optional)
+COPY .env* ./
+
+# Create a non-root user
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S eventws -u 1001
+USER eventws
+
+# Expose WebSocket port
+EXPOSE 8081
+
+# Start WebSocket server
+CMD ["node", "websocket-server.js"]

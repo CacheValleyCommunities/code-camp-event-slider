@@ -13,12 +13,16 @@ export default class UIGenerator {
         this.alertText = null;
         this.alertBackground = null;
 
-        // Event configuration
+        // Event configuration with multi-day support
         this.eventConfig = {
-            // Set your event date here - format: YYYY-MM-DDTHH:MM:SS
-            eventDate: new Date(EventConfig.date),
             eventName: EventConfig.name,
             logoUrl: EventConfig.logoUrl,
+            timezone: EventConfig.timezone,
+            // Multi-day event dates
+            eventStart: new Date(EventConfig.date),
+            day1End: new Date(EventConfig.day1End),
+            day2Start: new Date(EventConfig.day2Start),
+            day2End: new Date(EventConfig.day2End),
         };
 
         // Current alert configuration
@@ -190,7 +194,7 @@ export default class UIGenerator {
         if (this.scene.textures.exists('eventLogo')) {
             this.eventLogo = this.scene.add.image(
                 110,
-                this.scene.cameras.main.height - 37,
+                this.scene.cameras.main.height - 40,
                 'eventLogo'
             );
             this.eventLogo.setScale(0.15);
@@ -273,11 +277,45 @@ export default class UIGenerator {
     }
 
     /**
-     * Update countdown display
+     * Update countdown display with multi-day event support
      */
     updateCountdown() {
         const now = new Date();
-        const timeLeft = this.eventConfig.eventDate - now;
+
+        // Determine current event phase and target time
+        let targetTime, statusText, phaseText;
+
+        if (now < this.eventConfig.eventStart) {
+            // Before event starts
+            targetTime = this.eventConfig.eventStart;
+            statusText = 'Event Status: Upcoming';
+            phaseText = 'Starts in: ';
+        } else if (now >= this.eventConfig.eventStart && now < this.eventConfig.day1End) {
+            // Day 1 in progress
+            targetTime = this.eventConfig.day1End;
+            statusText = 'Event Status: Day 1 LIVE';
+            phaseText = 'Day 1 ends in: ';
+        } else if (now >= this.eventConfig.day1End && now < this.eventConfig.day2Start) {
+            // Between Day 1 and Day 2
+            targetTime = this.eventConfig.day2Start;
+            statusText = 'Event Status: Day 1 Complete';
+            phaseText = 'Day 2 starts in: ';
+        } else if (now >= this.eventConfig.day2Start && now < this.eventConfig.day2End) {
+            // Day 2 in progress
+            targetTime = this.eventConfig.day2End;
+            statusText = 'Event Status: Day 2 LIVE';
+            phaseText = 'Day 2 ends in: ';
+        } else {
+            // Event is over
+            this.countdownText.setText('EVENT COMPLETE!');
+            this.countdownText.setColor('#00ff00');
+            this.statusText.setText('Event Status: COMPLETE');
+            this.statusText.setColor('#00ff00');
+            return;
+        }
+
+        // Calculate time difference
+        const timeLeft = targetTime - now;
 
         if (timeLeft > 0) {
             const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
@@ -285,24 +323,29 @@ export default class UIGenerator {
             const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-            let countdownString = '';
+            let countdownString = phaseText;
             if (days > 0) {
-                countdownString = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+                countdownString += `${days}d ${hours}h ${minutes}m ${seconds}s`;
             } else if (hours > 0) {
-                countdownString = `${hours}h ${minutes}m ${seconds}s`;
+                countdownString += `${hours}h ${minutes}m ${seconds}s`;
             } else if (minutes > 0) {
-                countdownString = `${minutes}m ${seconds}s`;
+                countdownString += `${minutes}m ${seconds}s`;
             } else {
-                countdownString = `${seconds}s`;
+                countdownString += `${seconds}s`;
             }
 
             this.countdownText.setText(countdownString);
-            this.statusText.setText('Event Status: Upcoming');
-        } else {
-            this.countdownText.setText('EVENT STARTED!');
-            this.countdownText.setColor('#ff0000');
-            this.statusText.setText('Event Status: LIVE');
-            this.statusText.setColor('#ff0000');
+
+            // Set colors based on event phase
+            if (statusText.includes('LIVE')) {
+                this.countdownText.setColor('#ff0000');
+                this.statusText.setColor('#ff0000');
+            } else {
+                this.countdownText.setColor('#000000');
+                this.statusText.setColor('#444444');
+            }
+
+            this.statusText.setText(statusText);
         }
     }
 
@@ -331,7 +374,7 @@ export default class UIGenerator {
         const alertConfig = this.alertTypes[this.currentAlert.type];
         const screenWidth = this.scene.cameras.main.width;
         const alertY = this.scene.cameras.main.height - 40;
-        const alertX = screenWidth - 220;
+        const alertX = screenWidth - 230;
 
         if (alertConfig) {
             // Clear and redraw the alert background with new colors
@@ -380,11 +423,30 @@ export default class UIGenerator {
     }
 
     /**
-     * Set event date
+     * Set event dates for multi-day events
      */
     setEventDate(date) {
-        this.eventConfig.eventDate = new Date(date);
-        console.log(`📅 Event date set to: ${this.eventConfig.eventDate}`);
+        this.eventConfig.eventStart = new Date(date);
+        console.log(`📅 Event start date set to: ${this.eventConfig.eventStart}`);
+    }
+
+    /**
+     * Set all event dates from config object
+     */
+    setEventDates(config) {
+        if (config.date) this.eventConfig.eventStart = new Date(config.date);
+        if (config.day1End) this.eventConfig.day1End = new Date(config.day1End);
+        if (config.day2Start) this.eventConfig.day2Start = new Date(config.day2Start);
+        if (config.day2End) this.eventConfig.day2End = new Date(config.day2End);
+        if (config.timezone) this.eventConfig.timezone = config.timezone;
+
+        console.log(`📅 Event dates updated:`, {
+            start: this.eventConfig.eventStart,
+            day1End: this.eventConfig.day1End,
+            day2Start: this.eventConfig.day2Start,
+            day2End: this.eventConfig.day2End,
+            timezone: this.eventConfig.timezone
+        });
     }
 
     /**
