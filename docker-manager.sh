@@ -52,7 +52,7 @@ dev() {
     docker compose down
     
     # Start development services
-    docker compose up -d ui websocket-server
+    docker compose up -d ui l8ckokcgsssco008gkkgg0wo.cachevalley.co
     
     log_success "Development environment started!"
     log_info "UI available at: http://localhost:3000"
@@ -73,7 +73,7 @@ prod() {
     
     # Build production images
     log_info "Building production images..."
-    docker compose build ui-prod websocket-server
+    docker compose build ui-prod l8ckokcgsssco008gkkgg0wo.cachevalley.co
     
     # Start production services
     docker compose --profile production up -d
@@ -141,7 +141,7 @@ ws-console() {
     echo
     
     # Get the container ID
-    CONTAINER_ID=$(docker compose ps -q websocket-server)
+    CONTAINER_ID=$(docker compose ps -q l8ckokcgsssco008gkkgg0wo.cachevalley.co)
     
     if [ -z "$CONTAINER_ID" ]; then
         log_error "WebSocket server container not found. Is it running?"
@@ -189,7 +189,7 @@ ws-console() {
 # WebSocket server shell (for debugging)
 ws-shell() {
     log_info "Opening shell in WebSocket server container..."
-    docker compose exec -it websocket-server /bin/sh
+    docker compose exec -it l8ckokcgsssco008gkkgg0wo.cachevalley.co /bin/sh
 }
 
 # Show help
@@ -216,14 +216,14 @@ Examples:
   $0 dev                    # Start development environment
   $0 prod                   # Start production environment
   $0 logs ui                # Show logs for UI service
-  $0 shell websocket-server # Open shell in WebSocket container
+  $0 shell l8ckokcgsssco008gkkgg0wo.cachevalley.co # Open shell in WebSocket container
   $0 ws-console             # Connect to WebSocket CLI for commands
   $0 clean                  # Clean up all Docker resources
 
 Services:
   ui              - Vite development server (port 3000)
   ui-prod         - Nginx production server (port 80)
-  websocket-server - WebSocket backend server (port 8081)
+  l8ckokcgsssco008gkkgg0wo.cachevalley.co - WebSocket backend server (port 8081)
 
 EOF
 }

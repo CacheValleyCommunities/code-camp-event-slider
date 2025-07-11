@@ -10,7 +10,7 @@ COPY package*.json ./
 RUN npm install --omit=dev
 
 # Copy WebSocket server file
-COPY websocket-server.js ./
+COPY l8ckokcgsssco008gkkgg0wo.cachevalley.co.js ./
 
 # Copy .env file if it exists (optional)
 COPY .env* ./
@@ -24,4 +24,4 @@ USER eventws
 EXPOSE 8081
 
 # Start WebSocket server
-# CMD ["node", "websocket-server.js"]
+# CMD ["node", "l8ckokcgsssco008gkkgg0wo.cachevalley.co.js"]

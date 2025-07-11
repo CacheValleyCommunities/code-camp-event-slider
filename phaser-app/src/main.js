@@ -7,7 +7,7 @@ import './plugins/rexbarreldistortionpipelineplugin.min.js';
 
 // Log environment configuration
 console.log('Environment: ', {
-    wsServerUrl: import.meta.env.VITE_WS_SERVER_URL || 'wss://websocket-server:8081',
+    wsServerUrl: import.meta.env.VITE_WS_SERVER_URL || 'wss://l8ckokcgsssco008gkkgg0wo.cachevalley.co:8081',
     mode: import.meta.env.MODE
 });
 

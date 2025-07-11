@@ -3,7 +3,7 @@
  * 
  * Enhanced CLI interface with proper input handling
  * Install dependencies: npm install ws readline chalk
- * Run with: node websocket-server.js
+ * Run with: node l8ckokcgsssco008gkkgg0wo.cachevalley.co.js
  */
 
 import { WebSocketServer } from 'ws';

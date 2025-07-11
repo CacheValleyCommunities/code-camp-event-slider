@@ -7,8 +7,8 @@
         "dev": "vite",
         "build": "vite build",
         "preview": "vite preview",
-        "websocket-server": "node websocket-server.js",
-        "start": "npm run websocket-server & vite preview",
+        "l8ckokcgsssco008gkkgg0wo.cachevalley.co": "node l8ckokcgsssco008gkkgg0wo.cachevalley.co.js",
+        "start": "npm run l8ckokcgsssco008gkkgg0wo.cachevalley.co & vite preview",
         "docker-build": "vite build"
     },
     "dependencies": {

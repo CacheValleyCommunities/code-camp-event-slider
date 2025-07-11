@@ -8,13 +8,13 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=development
-      - VITE_WS_HOST=websocket-server
+      - VITE_WS_HOST=l8ckokcgsssco008gkkgg0wo.cachevalley.co
       - VITE_WS_PORT=8081
     depends_on:
-      - websocket-server
+      - l8ckokcgsssco008gkkgg0wo.cachevalley.co
 
   # WebSocket Server Service
-  websocket-server:
+  l8ckokcgsssco008gkkgg0wo.cachevalley.co:
     build:
       context: ./phaser-app
       dockerfile: Dockerfile.websocket
@@ -38,6 +38,6 @@ services:
       - "80:80"
       - "443:443"
     depends_on:
-      - websocket-server
+      - l8ckokcgsssco008gkkgg0wo.cachevalley.co
     profiles:
       - production
