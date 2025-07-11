@@ -8,6 +8,7 @@ export default defineConfig(({ command, mode }) => {
     return {
         server: {
             port: 3001,
+            host: '0.0.0.0', // Allow connections from any host
             open: true
         },
         build: {
