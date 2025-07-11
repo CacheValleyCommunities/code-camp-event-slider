@@ -8,7 +8,8 @@ import './plugins/rexbarreldistortionpipelineplugin.min.js';
 // Log environment configuration
 console.log('Environment: ', {
     mode: import.meta.env.MODE,
-    wsAutoDetect: 'WebSocket URL will be auto-detected from current page location'
+    configuredWSS: import.meta.env.VITE_WSS_SERVER || 'auto-detect',
+    protocol: window.location.protocol
 });
 
 const config = {

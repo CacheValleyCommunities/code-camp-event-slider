@@ -9,24 +9,31 @@ export default class WebSocketController {
         this.reconnectAttempts = 0;
         this.maxReconnectAttempts = 5;
         this.reconnectDelay = 1000; // Start with 1 second
-        this.heartbeatInterval = null;        // Auto-detect WebSocket server URL based on environment
-        const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-        const wsPort = '8081'; // WebSocket server always runs on port 8081
-
-        // Use Docker service name unless running on localhost
-        let wsHost;
-        const currentHost = window.location.hostname;
-
-        if (currentHost === 'localhost' || currentHost === '127.0.0.1') {
-            // Local development only
-            wsHost = 'localhost';
+        this.heartbeatInterval = null;        // Get WebSocket server URL from environment variable or auto-detect
+        if (import.meta.env.VITE_WSS_SERVER) {
+            // Use explicitly configured WebSocket server URL
+            this.serverUrl = import.meta.env.VITE_WSS_SERVER;
+            console.log(`📡 Using configured WebSocket URL: ${this.serverUrl}`);
         } else {
-            // All deployments use Docker service name
-            wsHost = 'websocket-server';
-        }
+            // Auto-detect based on current host
+            const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsPort = '8081'; // WebSocket server always runs on port 8081
 
-        this.serverUrl = `${wsProtocol}//${wsHost}:${wsPort}`;
-        console.log(`📡 WebSocket URL: ${this.serverUrl} (host: ${currentHost})`);
+            // Use Docker service name unless running on localhost
+            let wsHost;
+            const currentHost = window.location.hostname;
+
+            if (currentHost === 'localhost' || currentHost === '127.0.0.1') {
+                // Local development only
+                wsHost = 'localhost';
+            } else {
+                // All deployments use Docker service name
+                wsHost = 'websocket-server';
+            }
+
+            this.serverUrl = `${wsProtocol}//${wsHost}:${wsPort}`;
+            console.log(`📡 Auto-detected WebSocket URL: ${this.serverUrl} (host: ${currentHost})`);
+        }
 
         this.connect();
     }

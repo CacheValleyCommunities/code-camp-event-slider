@@ -8,6 +8,7 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=development
+      - VITE_WSS_SERVER=${VITE_WSS_SERVER}
     depends_on:
       - websocket-server
 
