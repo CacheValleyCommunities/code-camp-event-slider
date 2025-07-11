@@ -9,11 +9,24 @@ export default class WebSocketController {
         this.reconnectAttempts = 0;
         this.maxReconnectAttempts = 5;
         this.reconnectDelay = 1000; // Start with 1 second
-        this.heartbeatInterval = null;
+        this.heartbeatInterval = null;        // Auto-detect WebSocket server URL based on environment
+        const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const wsPort = '8081'; // WebSocket server always runs on port 8081
 
-        // Get WebSocket server URL from environment variable or use default
-        this.serverUrl = import.meta.env.VITE_WS_SERVER_URL || 'wss://l8ckokcgsssco008gkkgg0wo.cachevalley.co:8081';
-        console.log(`📡 WebSocket server URL: ${this.serverUrl}`);
+        // Use Docker service name unless running on localhost
+        let wsHost;
+        const currentHost = window.location.hostname;
+
+        if (currentHost === 'localhost' || currentHost === '127.0.0.1') {
+            // Local development only
+            wsHost = 'localhost';
+        } else {
+            // All deployments use Docker service name
+            wsHost = 'websocket-server';
+        }
+
+        this.serverUrl = `${wsProtocol}//${wsHost}:${wsPort}`;
+        console.log(`📡 WebSocket URL: ${this.serverUrl} (host: ${currentHost})`);
 
         this.connect();
     }

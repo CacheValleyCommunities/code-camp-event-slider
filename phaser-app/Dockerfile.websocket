@@ -24,4 +24,4 @@ USER eventws
 EXPOSE 8081
 
 # Start WebSocket server
-# CMD ["node", "websocket-server.js"]
+CMD ["node", "websocket-server.js"]
