@@ -9,7 +9,8 @@ export default defineConfig(({ command, mode }) => {
         server: {
             port: 3001,
             host: '0.0.0.0', // Allow connections from any host
-            open: true
+            open: true,
+            allowedHosts: true // Allow all hosts (including subdomains)
         },
         build: {
             outDir: 'dist',
